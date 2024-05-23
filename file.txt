@@ -1,0 +1,78 @@
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import LoginScreen from './login/loginscreen';
+import RegisterScreen from './login/RegisterScreen';
+
+const firebaseConfig = {
+  // Your Firebase configuration
+  apiKey: "AIzaSyD5cRtWqNW62xe9IiIH8oD0zVh0HV9EYkg",
+  authDomain: "plantcareapp-11f5b.firebaseapp.com",
+  projectId: "plantcareapp-11f5b",
+  storageBucket: "plantcareapp-11f5b.appspot.com",
+  messagingSenderId: "817908811746",
+  appId: "1:817908811746:web:b199332f2cd207a26e9bbb"
+};
+
+const app = initializeApp(firebaseConfig);
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [isLogin, setIsLogin] = useState(true);
+
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  const handleAuthentication = async (email, password) => {
+    try {
+      if (user) {
+        console.log('User logged out successfully!');
+        await signOut(auth);
+      } else {
+        if (isLogin) {
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log('User signed in successfully!');
+        } else {
+          await createUserWithEmailAndPassword(auth, email, password);
+          console.log('User created successfully!');
+        }
+      }
+    } catch (error) {
+      console.error('Authentication error:', error.message);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {user ? (
+        <Text>Welcome, {user.email}</Text>
+      ) : (
+        <>
+          {isLogin ? (
+            <LoginScreen handleAuthentication={handleAuthentication} />
+          ) : (
+            <RegisterScreen handleAuthentication={handleAuthentication} />
+          )}
+        </>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+});
