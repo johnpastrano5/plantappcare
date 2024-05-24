@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -9,9 +10,14 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate('Register');
   };
 
-  const handleLogin = () => {
-    // Add your login logic here
-    console.log('Logging in...');
+  const handleLogin = async () => {
+    try {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('User signed in successfully!');
+    } catch (error) {
+      console.error('Authentication error:', error.message);
+    }
   };
 
   return (
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    width: 160,
+    width: 165,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,

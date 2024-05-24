@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleNavigateToLogin = () => {
-    navigation.navigate('Login');
-  };
-
-  const handleRegister = () => {
-    // Add your register logic here
-    console.log('Registering...');
+  const handleRegister = async () => {
+    try {
+      const auth = getAuth();
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log('User registered successfully!');
+      navigation.navigate('Login'); // Navigate to the Login screen after successful registration
+    } catch (error) {
+      console.error('Authentication error:', error.message);
+    }
   };
 
   return (
@@ -34,7 +37,7 @@ const RegisterScreen = ({ navigation }) => {
       <Button title="Register" onPress={handleRegister} />
       <View style={styles.bottomContainer}>
         <Text style={styles.bottomText}>Already have an account?</Text>
-        <Button title="Back to Login" onPress={handleNavigateToLogin} />
+        <Button title="Back to Login" onPress={() => navigation.navigate('Login')} />
       </View>
     </View>
   );
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    width: 160,
+    width: 165,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
