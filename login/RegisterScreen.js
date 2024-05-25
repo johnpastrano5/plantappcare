@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const RegisterScreen = ({ navigation }) => {
@@ -20,24 +21,30 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Register" onPress={handleRegister} />
+      <View style={styles.inputContainer}>
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          style={styles.input}
+        />
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
+        />
+      </View>
+      <Button mode="contained" onPress={handleRegister} style={styles.button}>
+        Register
+      </Button>
       <View style={styles.bottomContainer}>
         <Text style={styles.bottomText}>Already have an account?</Text>
-        <Button title="Back to Login" onPress={() => navigation.navigate('Login')} />
+        <Button mode="text" onPress={() => navigation.navigate('Login')} style={styles.linkButton}>
+          Back to Login
+        </Button>
       </View>
     </View>
   );
@@ -49,25 +56,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 28,
+    marginBottom: 24,
+    color: '#333',
+  },
+  inputContainer: {
+    width: '80%',
+    marginBottom: 24,
   },
   input: {
-    width: 165,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
     marginBottom: 16,
-    paddingHorizontal: 8,
+    backgroundColor: '#fff',
+  },
+  button: {
+    width: '80%',
+    paddingVertical: 8,
+    borderRadius: 8,
   },
   bottomContainer: {
     marginTop: 20,
+    alignItems: 'center',
   },
   bottomText: {
     fontSize: 16,
     marginBottom: 8,
+  },
+  linkButton: {
+    color: '#007bff',
   },
 });
 

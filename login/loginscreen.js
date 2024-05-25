@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
@@ -8,6 +9,10 @@ const LoginScreen = ({ navigation }) => {
 
   const handleNavigateToRegister = () => {
     navigation.navigate('Register');
+  };
+
+  const handleNavigateToAccountRecovery = () => {
+    navigation.navigate('AccountRecovery');
   };
 
   const handleLogin = async () => {
@@ -23,24 +28,34 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Login" onPress={handleLogin} />
+      <View style={styles.inputContainer}>
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          style={styles.input}
+        />
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
+        />
+      </View>
+      <Button mode="contained" onPress={handleLogin} style={styles.button}>
+        Login
+      </Button>
       <View style={styles.bottomContainer}>
+        <Button mode="text" onPress={handleNavigateToAccountRecovery} style={styles.linkButton}>
+          Forget Password
+        </Button>
         <Text style={styles.bottomText}>Don't have an account?</Text>
-        <Button title="Create an Account" onPress={handleNavigateToRegister} />
+        <Button mode="text" onPress={handleNavigateToRegister} style={styles.linkButton}>
+          Create an Account
+        </Button>
+       
       </View>
     </View>
   );
@@ -52,25 +67,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 28,
+    marginBottom: 24,
+    color: '#333',
+  },
+  inputContainer: {
+    width: '80%',
+    marginBottom: 24,
   },
   input: {
-    width: 165,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
     marginBottom: 16,
-    paddingHorizontal: 8,
+    backgroundColor: '#fff',
+  },
+  button: {
+    width: '80%',
+    paddingVertical: 8,
+    borderRadius: 8,
   },
   bottomContainer: {
     marginTop: 20,
+    alignItems: 'center',
   },
   bottomText: {
     fontSize: 16,
     marginBottom: 8,
+  },
+  linkButton: {
+    color: '#007bff',
   },
 });
 

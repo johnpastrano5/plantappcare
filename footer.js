@@ -5,8 +5,10 @@ const Footer = () => {
   return (
     <View style={styles.footer}>
       <Text style={styles.text}>
-        Copyright © 2024 Team-Focused. All rights reserved.
-        Founder & Co-founder : John Leo F. Pastrano, Beverly Jane L. Javier & Josephaul Pasco 
+        © 2024 Team-Focused. All rights reserved.
+      </Text>
+      <Text style={styles.text}>
+        Founders: John Leo F. Pastrano, Beverly Jane L. Javier, Josephaul Pasco
       </Text>
     </View>
   );
@@ -14,13 +16,8 @@ const Footer = () => {
 
 const styles = StyleSheet.create({
   footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
     backgroundColor: '#f5f5f5',
-    padding: 5,
-    paddingBottom: 10,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   text: {
@@ -30,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Footer
+export default Footer;

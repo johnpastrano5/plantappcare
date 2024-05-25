@@ -1,6 +1,5 @@
-// FirestoreFunctions.js
 import { db } from '../firebaseConfig';
-import { setDoc, addDoc, doc, collection } from 'firebase/firestore';
+import { setDoc, addDoc, doc, collection } from 'firebase/firestore'; // Update import statement
 
 const addPlantDataToFirestore = async () => {
   const collectionName = 'plants';
