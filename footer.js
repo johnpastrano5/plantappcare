@@ -5,10 +5,7 @@ const Footer = () => {
   return (
     <View style={styles.footer}>
       <Text style={styles.text}>
-        © 2024 Team-Focused. All rights reserved.
-      </Text>
-      <Text style={styles.text}>
-        Founders: John Leo F. Pastrano, Beverly Jane L. Javier, Josephaul Pasco
+        © 2024 Team-PlantCare. All rights reserved.
       </Text>
     </View>
   );

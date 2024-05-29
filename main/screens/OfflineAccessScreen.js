@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { Text, Button, Snackbar } from 'react-native-paper';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 
 const OfflineAccessScreen = () => {
@@ -12,13 +12,36 @@ const OfflineAccessScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  const fetchPlants = async () => {
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected) {
+        fetchPlantsOnline();
+        setIsOffline(false);
+      } else {
+        fetchPlantsOffline();
+        setIsOffline(true);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const fetchPlantsOnline = async () => {
     try {
-      const plantsCollection = await getDocs(collection(db, 'plants'));
-      const plantsList = plantsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setPlants(plantsList);
-      await AsyncStorage.setItem('plants', JSON.stringify(plantsList));
-      setIsLoading(false);
+      const q = query(collection(db, 'plants'));
+      const unsubscribe = onSnapshot(q, snapshot => {
+        const plantsList = [];
+        snapshot.forEach(doc => {
+          plantsList.push({ id: doc.id, ...doc.data() });
+        });
+        setPlants(plantsList);
+        setIsLoading(false);
+        setShowSnackbar(false);
+      });
+
+      return unsubscribe;
     } catch (error) {
       console.error('Error fetching plant data:', error);
       setShowSnackbar(true);
@@ -26,7 +49,7 @@ const OfflineAccessScreen = () => {
     }
   };
 
-  const fetchOfflineData = async () => {
+  const fetchPlantsOffline = async () => {
     try {
       const plantsList = JSON.parse(await AsyncStorage.getItem('plants'));
       if (plantsList) {
@@ -45,23 +68,13 @@ const OfflineAccessScreen = () => {
     setShowSnackbar(false);
     const state = await NetInfo.fetch();
     if (state.isConnected) {
-      fetchPlants();
+      fetchPlantsOnline();
+      setIsOffline(false);
     } else {
-      fetchOfflineData();
+      fetchPlantsOffline();
       setIsOffline(true);
     }
   };
-
-  useEffect(() => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected) {
-        fetchPlants();
-      } else {
-        fetchOfflineData();
-        setIsOffline(true);
-      }
-    });
-  }, []);
 
   const renderPlantItem = ({ item }) => (
     <View style={styles.plantContainer}>
@@ -83,9 +96,9 @@ const OfflineAccessScreen = () => {
         />
       )}
       {showSnackbar && (
-        <Snackbar 
-          visible={showSnackbar} 
-          onDismiss={() => setShowSnackbar(false)} 
+        <Snackbar
+          visible={showSnackbar}
+          onDismiss={() => setShowSnackbar(false)}
           action={{
             label: 'Retry',
             onPress: handleRetry,
@@ -94,6 +107,14 @@ const OfflineAccessScreen = () => {
           Oops! Something went wrong. Please try again.
         </Snackbar>
       )}
+      <Button
+        mode="contained"
+        style={styles.retryButton}
+        onPress={handleRetry}
+        disabled={!isOffline}
+      >
+        Retry
+      </Button>
     </View>
   );
 };
@@ -115,9 +136,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   plantName: {
     fontSize: 18,
+    flex: 1,
   },
   loadingIndicator: {
     marginTop: 16,
@@ -127,6 +152,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
     marginTop: 32,
+  },
+  retryButton: {
+    marginTop: 16,
   },
 });
 

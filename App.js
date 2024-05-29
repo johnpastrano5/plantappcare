@@ -12,6 +12,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Header from './Header';
 import Footer from './footer';
 import Landing from './login/landing';
+import AddPlantScreen from './main/screens/AddPlantScreen';
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5cRtWqNW62xe9IiIH8oD0zVh0HV9EYkg",
@@ -67,15 +68,18 @@ const App = () => {
                 component={AccountRecovery}
                 options={{ headerShown: false }}
               />
+               <Stack.Screen name="AddPlantScreen" component={AddPlantScreen} />
             </>
           ) : (
             <Stack.Screen
               name="Home"
               component={MainScreen}
               options={{ headerShown: false, 
-                headerLeft: null
+                headerLeft: null,
+
               }}
             />
+            
           )}
         </Stack.Navigator>
       </NavigationContainer>

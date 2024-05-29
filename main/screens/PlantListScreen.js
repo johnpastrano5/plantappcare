@@ -1,3 +1,5 @@
+// PlantListScreen.js
+
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { Text, ActivityIndicator, TextInput, Card, Title, Paragraph } from "react-native-paper";
@@ -98,6 +100,7 @@ const PlantListScreen = ({ navigation }) => {
         }}
       />
       <Stack.Screen name="PlantDetails" component={PlantDetailsScreen} />
+      
     </Stack.Navigator>
   );
 };

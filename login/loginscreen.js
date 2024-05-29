@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
+
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

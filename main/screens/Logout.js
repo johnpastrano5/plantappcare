@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text, Pressable } from 'react-native';
+import { View, StyleSheet, Text, Pressable, Image } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth'; // Import getAuth and signOut
+import logo from '../../assets/444.webp';
 
 const LogoutScreen = ({ navigation }) => {
   const handleLogout = async () => {
@@ -16,6 +17,9 @@ const LogoutScreen = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
+       <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.logo} />
+      </View>
       <Text style={styles.message}>Are you sure you want to log out?</Text>
       <Pressable
         style={[styles.button, { backgroundColor: '#FF6347' }]} // Update the style to change the background color
@@ -51,6 +55,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white', // Change the text color to white
   },
-});
+    logo: {
+      width: 250,
+      height: 250,
+      borderRadius: 40,
+      marginBottom: 10,
+    },
+  },
+);
 
 export default LogoutScreen;

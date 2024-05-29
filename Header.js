@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import logo from './assets/logo.webp';
+import logo from './assets/444.webp';
 
 const Header = () => {
   return (
