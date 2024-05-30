@@ -22,9 +22,9 @@ const LogoutScreen = ({ navigation }) => {
       </View>
       <Text style={styles.message}>Are you sure you want to log out?</Text>
       <Pressable
-        style={[styles.button, { backgroundColor: '#3D550' }]} // Update the style to change the background color
+        style={[styles.button, { backgroundColor: '#3D550C' }]} // Update the style to change the background color
         onPress={handleLogout} // Call handleLogout on press
-       >
+      >
         <Text style={styles.buttonLabel}>Log Out</Text>
       </Pressable>
     </View>

@@ -79,10 +79,11 @@ const styles = StyleSheet.create({
   backButton: {
     borderColor: '#007bff',
     borderWidth: 1,
+    backgroundColor: '#81B622',
   },
   recoverButton: {
     marginTop: 10,
-    backgroundColor: '#007bff',
+    backgroundColor: '#94C973',
   },
   buttonLabel: {
     fontSize: 14,
