@@ -10,8 +10,8 @@ const HomeScreen = () => {
 
   const featuredPlants = [
     { name: 'Rose', image: require('../../assets/rose.jpg') },
-    { name: 'Snake Plant', image: require('../../assets/snake_plant.jpg') },
-    { name: 'Monstera', image: require('../../assets/monstera.jpg') },
+    { name: 'Snake Plant (Sansevieria)', image: require('../../assets/snake_plant.jpg') },
+    { name: 'Snake Monstera Deliciosa (Swiss Cheese Plant)', image: require('../../assets/monstera.jpg') },
   ];
 
   const dashboardItems = [

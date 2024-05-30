@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   dataTable: {
     marginTop: 16,
     backgroundColor: '#fff',
-    minWidth: 600, // Adjust as needed for your table content
+    minWidth: 3000, // Adjust as needed for your table content
   },
   tableHeader: {
     backgroundColor: '#e0e0e0',
